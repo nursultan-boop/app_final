@@ -39,6 +39,7 @@ def form_example():
         returnValue=""
         address = request.form['address']
         nft_obj = nft.query.filter_by(adrs=address).first()
+        returnValue=nft_obj.meta_data
         if(nft_obj is None):
             url = "https://solana-gateway.moralis.io/nft/mainnet/{}/metadata".format(address)
             headers = {
@@ -52,13 +53,13 @@ def form_example():
             )
             db.session.add(neft)
             db.session.commit()
-            return render_template('meta_data.html', meta_data=returnValue)
+        return render_template('meta_data.html', meta_data=returnValue)
 
     return render_template('nft_styles.html')
     
     # otherwise handle the GET request   
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login/', methods=['GET', 'POST'])
 def login():
     global logged_in
     logged_in=False
